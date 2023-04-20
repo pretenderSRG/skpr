@@ -1,6 +1,7 @@
 import json
 
 QUESTIONS = "questions.json"
+OUTPUT_FILE = "saved_statistics.json"
 
 
 def load_questions(filename: str) -> dict:
@@ -40,7 +41,17 @@ def parse_input() -> tuple:
     return category.title(), price
 
 
-## def is_question in base(questious):
+def is_question(questions):
+    asked_list = []
+    for categories in questions:
+        for question in questions[categories].values():
+            for k in question:
+                if k["asked"]:
+                    asked_list.append(True)
+                else:
+                    asked_list.append(False)
+
+    return all(asked_list)
 
 
 def show_questions(questions: dict, category: str, number: str):
@@ -58,10 +69,29 @@ def show_questions(questions: dict, category: str, number: str):
             return questions, None
 
 
+def show_statistics(scores, right, fail) -> None:
+    """
+    Show game statistics
+    :param scores:
+    :param right:
+    :param fail:
+    :return:
+    """
+    print(f"Ваш рахунок: {scores}")
+    print(f"Правильних відповідей: {right}")
+    print(f"Неправильних відповідей: {fail}")
+
+
+def write_statistics(filename, scores, correct, incorect):
+    with open(filename, "w") as file:
+        statistic = {"point": scores, "correct": correct, "incorect": incorect}
+        json.dump(statistic, file)
+
 def main():
     scores = 0
     correct_answers = 0
     fail_answers = 0
+
     questions = load_questions(QUESTIONS)
     while True:
         show_field(questions)
@@ -77,7 +107,7 @@ def main():
             continue
         user_answer = input("-> ").lower()
         if user_answer == question:
-            print("Правильно")
+            print(f"Правильно! Ваш рахунок {scores}")
             scores += int(user_price)
             correct_answers += 1
         else:
@@ -86,6 +116,11 @@ def main():
             print(f"Неправильно, правильна відповідь \
             {questions[user_category][user_price]['answer']}, {-int(user_price)}\
                 , Ваш рахунок {scores}")
+        if is_question(questions):
+            print("У нас закінчились запитання")
+            show_statistics(scores, correct_answers, fail_answers)
+            write_statistics(OUTPUT_FILE, scores, correct_answers, fail_answers)
+
 
 
 if __name__ == '__main__':
