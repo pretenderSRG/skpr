@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <title>Search candidate</title>
+    <meta charset="UTF-8">
+    <title>Skills</title>
 </head>
-    <body>
-    <h1>Find {{ count }} candidates</h1>
+<body>
+    <h1>Find {{ count }} candidates with skill {{ skill }}</h1>
     {% for candidate in candidates %}
         <p><a href="/candidate/{{ candidate }}">{{ candidate }}</a></p>
     {% endfor %}
-    </body>
+
+</body>
 </html>
