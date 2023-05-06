@@ -1,7 +1,6 @@
 from flask import Flask, render_template
 from configurate import PATH_TO_CANDIDATE_DATA
-from utils import load_candidates_from_json
-
+from utils import load_candidates_from_json, get_candidate, get_candidates_by_skill, get_candidates_by_name, get_candidates_by_skill
 
 app = Flask(__name__)
 app.config.update(
@@ -16,31 +15,20 @@ def main_page():
     return render_template('list.html', candidates=candidates)
 
 
-@app.route('/candidate/<x>')
+@app.route('/candidate/<int:x>')
 def candidate_info(x):
-    for candidate in candidates:
-        if x in candidate.values():
-            return render_template('single.html', candidate=candidate)
+    return render_template('single.html', candidate=get_candidate(x))
 
 
 @app.route('/search/<candidate_name>')
 def search_candidate(candidate_name):
-    candidates_list = []
-    for candidate in candidates:
-        search_candidate = candidate.get("name")
-        if search_candidate.split()[0] == candidate_name:
-            candidates_list.append(search_candidate)
-
+    candidates_list = get_candidates_by_name(candidate_name)
     return render_template('search.html', count=len(candidates_list), candidates=candidates_list)
 
 
 @app.route('/skill/<skill_name>')
 def skills(skill_name):
-    candidates_with_skill = []
-    for candidate in candidates:
-        skills = candidate.get("skills").lower().split(', ')
-        if skill_name.lower() in skills:
-            candidates_with_skill.append(candidate.get('name'))
+    candidates_with_skill = get_candidates_by_skill(skill_name)
     return render_template('skill.html', count=len(candidates_with_skill), candidates=candidates_with_skill, skill=skill_name)
 
 

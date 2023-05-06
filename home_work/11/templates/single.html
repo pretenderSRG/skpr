@@ -5,10 +5,15 @@
     <title>{{ candidate.name }}</title>
   </head>
   <body>
+    {% if 'not_found' in candidate.keys() %}
+    <h1>{{ candidate.not_found }}</h1>
+
+  {% else %}
     <h1>Name: {{ candidate.name }}</h1>
     <p>Position: {{ candidate.posotion }}</p>
     <img src="{{ candidate.picture }}" width="200" /> <br />
     <p>{{ candidate.skills }}</p>
     <a href="/">all candidates</a>
+  {% endif %}
   </body>
 </html>

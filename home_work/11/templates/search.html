@@ -7,7 +7,7 @@
     <body>
     <h1>Find {{ count }} candidates</h1>
     {% for candidate in candidates %}
-        <p><a href="/candidate/{{ candidate }}">{{ candidate }}</a></p>
+        <p><a href="/candidate/{{ candidate.name }}">{{ candidate.name }}</a></p>
     {% endfor %}
     </body>
 </html>

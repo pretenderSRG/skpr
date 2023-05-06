@@ -5,10 +5,14 @@
     <title>Skills</title>
 </head>
 <body>
+    {% if count > 0 %}
     <h1>Find {{ count }} candidates with skill {{ skill }}</h1>
-    {% for candidate in candidates %}
-        <p><a href="/candidate/{{ candidate }}">{{ candidate }}</a></p>
-    {% endfor %}
+        {% for candidate in candidates %}
+            <p><a href="/candidate/{{ candidate.id }}">{{ candidate.name }}</a></p>
+        {% endfor %}
+    {% else %}
+    <h1>Candidate with skill {{ skill }} not found</h1>
+    {% endif %}
 
 </body>
 </html>
