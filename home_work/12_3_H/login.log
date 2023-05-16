@@ -1,0 +1,5 @@
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 724-338-152
+INFO:root:Слово для пошуку: ддд
+INFO:werkzeug:127.0.0.1 - - [16/May/2023 14:14:54] "GET /search/?s=ддд HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/May/2023 14:14:54] "[36mGET /static/style.css HTTP/1.1[0m" 304 -

@@ -23,6 +23,14 @@ def page_upload():
         return f"Ти файлів <{extension}> не підтримуєтсья"
 
 
+# @app.route('/upload/<file>')
+# def show_file(file):
+#     picture = request.files["picture"]
+
+
+
+
+
 @app.errorhandler(413)
 def page_not_found(e):
     return f"<h1>Файл занадто великий</h1><p>пошукайте менший : (</p><p></p><a href='/'>на головну</a>"
