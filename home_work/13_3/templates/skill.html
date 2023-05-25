@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Skill</title>
+</head>
+<body>
+  {% for candidate in candidates %}
+  <p>{{ candidate.name }} - {{ candidate.skills }}</p>
+  {% endfor %}
+    <p><a href="/">Назад</a></p>
+</body>
+</html>

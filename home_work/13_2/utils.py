@@ -48,3 +48,12 @@ def get_circle_square(radius):
         raise ValueError('Radius must be > 0')
 
     return radius ** 2 * pi
+
+def sum_of_two(a, b):
+    """
+    Sum of two numbers
+    :param a:
+    :param b:
+    :return:
+    """
+    return a + b
