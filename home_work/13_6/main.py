@@ -1,6 +1,17 @@
-import os
+from flask import Flask, jsonify
 
 
-# os.environ['USER'] = 'Serg'
-user = os.environ.get('USER')
-print(user)
+app = Flask(__name__)
+
+
+@app.route('/')
+def get_json():
+    data = {"name": "Alexs"}
+    return jsonify(data)
+
+
+if __name__ == "__main__":
+    app.run()
+# response = app.test_client().get('/')
+# print(response.status_code)
+# print(response.data)
