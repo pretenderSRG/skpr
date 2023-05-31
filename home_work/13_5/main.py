@@ -1,13 +1,16 @@
 import os
+import dotenv
 from flask import Flask
-from config import Config
+
 
 app = Flask(__name__)
-app.config.from_object(Config)
+dotenv.load_dotenv(override=True)
 
-path = app.config.get("PATH")
+# if os.environ.get("APP_CONFIG") == "development":
+#     app.config.from_pyfile("config/development.py")
+# else:
+#     app.config.from_pyfile("config/production.py")
 
-print(os.environ.get("PATH"))
 
 # if __name__ =='__main__':
 #     app.run()
