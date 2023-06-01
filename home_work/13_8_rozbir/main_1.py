@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 
 
 app = Flask(__name__)
@@ -34,8 +34,17 @@ def page_post_delete():
     return "I delete the post"
 
 
-if __name__ == '__main__':
+@app.route('/form', methods=['GET', 'POST'])
+def page_form():
+    if request.method == 'POST':
+        var_name = request.values.get("name1")
+        return f"Form get variable {var_name}"
+    else:
+        return "<form action='/form', method='post'>" \
+               "<input type='text' name='name1'>" \
+               "<input type='submit'>" \
+               "</form>"
+
+
+if __name__ == "__main__":
     app.run()
-
-
-
