@@ -11,4 +11,5 @@ def test_has_r_without():
 
 
 def test_has_r_wrong_type():
-    pass
+    with pytest.raises(TypeError):
+        has_r(1)
