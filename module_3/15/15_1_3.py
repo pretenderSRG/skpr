@@ -16,16 +16,21 @@ def create_table(name):
         query = f"""
                 CREATE TABLE {name} (
                 id integer PRIMARY KEY AUTOINCREMENT,
-                name nvarchar(40),
+                name nvarchar(40) NOT NULL,
                 author nvarchar(40),
                 description nvarchar(255),
-                genre nvarchar(20),
+                genre nvarchar(20) CONSTRAINT df_genre DEFAULT 'Undefined',
                 publication_date date,
-                pages_count integer,
+                pages_count integer CONSTRAINT ck_pages_count CHECK (pages_count > 0),
                 price decimal                
                 )    
                 """
-        cursor.execute(query)
+        # cursor.execute(query)
+
+        index_query = f"""
+                        CREATE INDEX book_name_idx ON {name} (name) 
+                        """
+        cursor.execute(index_query)
 # create_bd()
 
 
