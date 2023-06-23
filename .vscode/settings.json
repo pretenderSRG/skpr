@@ -1,0 +1,17 @@
+{
+  "sqltools.connections": [
+    {
+        "previewLimit": 50,
+        "driver": "SQLite",
+        "name": "first_",
+        "database": "${workspaceFolder:skypro}/module_3/15/books.db"
+    },
+    {
+        "previewLimit": 50,
+        "driver": "SQLite",
+        "name": "netflix_test",
+        "database": "${workspaceFolder:skypro}/module_3/15/netflix_test.db"
+    }
+],
+  "sqltools.useNodeRuntime": true
+}

@@ -25,13 +25,14 @@ def create_table(name):
                 price decimal                
                 )    
                 """
-        # cursor.execute(query)
+        cursor.execute(query)
 
         index_query = f"""
                         CREATE INDEX book_name_idx ON {name} (name) 
                         """
-        cursor.execute(index_query)
+        # cursor.execute(index_query)
 # create_bd()
 
 
-create_table("Tarzan")
+# create_table("Tarzan")
+create_table("Tarzan_3")
