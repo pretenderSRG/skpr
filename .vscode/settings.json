@@ -3,14 +3,14 @@
     {
         "previewLimit": 50,
         "driver": "SQLite",
-        "name": "first_",
-        "database": "${workspaceFolder:skypro}/module_3/15/books.db"
+        "name": "netflix_test",
+        "database": "${workspaceFolder:skypro}/module_3/15/netflix_test.db"
     },
     {
         "previewLimit": 50,
         "driver": "SQLite",
-        "name": "netflix_test",
-        "database": "${workspaceFolder:skypro}/module_3/15/netflix_test.db"
+        "name": "animals",
+        "database": "${workspaceFolder:skypro}/home_work/15_3/animal.db"
     }
 ],
   "sqltools.useNodeRuntime": true
