@@ -15,6 +15,10 @@ with sqlite3.connect("animal.db") as con:
     data_animals_1 = cur.fetchall()
 
     insert_to_animals_1 = """
-    INSERT INTO animals_1 VALUES (?, ?, ?, ?, ?)
+    INSERT INTO animals_1 ("animal_id",
+            "animal_type",
+            "animal_name",
+             "breed",
+             "date_of_birth") VALUES (?, ?, ?, ?, ?)
     """
     cur.executemany(insert_to_animals_1, data_animals_1)
