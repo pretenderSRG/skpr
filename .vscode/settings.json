@@ -11,6 +11,12 @@
         "driver": "SQLite",
         "name": "animals",
         "database": "${workspaceFolder:skypro}/home_work/15_3/animal.db"
+    },
+    {
+        "previewLimit": 50,
+        "driver": "SQLite",
+        "name": "15_3_rozbir",
+        "database": "${workspaceFolder:skypro}/home_work/15_3_rozbir/animal.db"
     }
 ],
   "sqltools.useNodeRuntime": true
