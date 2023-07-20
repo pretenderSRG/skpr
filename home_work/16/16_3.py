@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, request, jsonify
+from sqlalchemy.orm import relationship
 from data import users, orders, offers
 from datetime import datetime
 
@@ -42,6 +43,9 @@ class Offer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     order_id = db.Column(db.Integer, db.ForeignKey("order.id"))
     executor_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    
+    orders = relationship("Order")
+    users = relationship("User")
 
 
 def main():
@@ -99,6 +103,25 @@ def insert_data():
         db.session.add_all(new_orders)
         db.session.add_all(new_users)
         db.session.add_all(new_offers)
+
+
+@app.route('/users', methods=['GET', 'POST'])
+def users_index():
+    if request.method == 'GET':
+        all_users = []
+        for user in db.session.query(User).all():
+            all_users.append(
+                {
+                    'id': user.id,
+                    'first_name': user.first_name,
+                    'last_name': user.last_name,
+                    'age': user.age,
+                    'email': user.email,
+                    'role': user.role,
+                    'phone': user.phone
+                }
+            )
+        return jsonify(all_users)
 
 
 @app.route('/orders', methods=['GET', 'POST'])
