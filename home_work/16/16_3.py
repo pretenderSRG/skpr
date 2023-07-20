@@ -123,6 +123,19 @@ def users_index():
             )
         return jsonify(all_users)
 
+    if request.method == 'POST':
+        data = request.get_json()
+        new_user = User(
+            first_name=data['first_name'],
+            last_name=data['last_name'],
+            age=data['age'],
+            email=data['email'],
+            role=data['role'],
+            phone=data['phone']
+        )
+        with db.session.begin():
+            db.session.add(new_user)
+
 
 @app.route('/orders', methods=['GET', 'POST'])
 def orders_index():
