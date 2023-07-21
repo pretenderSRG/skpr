@@ -138,7 +138,7 @@ def users_index():
         return "", 200
 
 
-@app.route("/users/<int:uid>", methods=["GET", "POST"])
+@app.route("/users/<int:uid>", methods=["GET", "POST", "PUT", "DELETE"])
 def user_id_page(uid):
     if request.method == "GET":
         user = db.session.query(User).get(uid)
@@ -216,6 +216,15 @@ def order_id_page(oid):
 @app.route('/offers', methods=['GET', 'POST'])
 def offers_index():
     if request.method == 'GET':
+        all_offers = []
+        for offer in db.session.query(Offer).all():
+            all_offers.append({
+                'id': offer.id,
+                'order_id': offer.order_id,
+                'executor_id': offer.executor_id
+            })
+        return jsonify(all_offers)
+            
 
 
 @app.errorhandler(404)
