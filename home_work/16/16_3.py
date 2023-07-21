@@ -135,6 +135,27 @@ def users_index():
         )
         with db.session.begin():
             db.session.add(new_user)
+        return "", 200
+
+
+@app.route("/users/<int:uid>", methods=["GET", "POST"])
+def user_id_page(uid):
+    if request.method == "GET":
+        user = db.session.query(User).get(uid)
+        if user:
+            user_json = {
+
+                    'id': user.id,
+                    'first_name': user.first_name,
+                    'last_name': user.last_name,
+                    'age': user.age,
+                    'email': user.email,
+                    'role': user.role,
+                    'phone': user.phone
+                        }
+            return jsonify(user_json)
+        else:
+            raise Exception("Bad request")
 
 
 @app.route('/orders', methods=['GET', 'POST'])
@@ -171,6 +192,36 @@ def orders_index():
         )
         with db.session.begin():
             db.session.add(new_order)
+        return "", 200
+
+
+@app.route('/orders/<int:oid>', methods=['GET', 'POST'])
+def order_id_page(oid):
+    if request.method == 'GET':
+        order = db.session.query(Order).get(oid)
+        order_json = {
+            'id': order.id,
+            'name': order.name,
+            'description': order.description,
+            'start_date': order.start_date,
+            'end_date': order.end_date,
+            'address': order.address,
+            'price': order.price,
+            'customer_id': order.customer_id,
+            'executor_id': order.executor_id
+        }
+        return jsonify(order_json)
+
+
+@app.route('/offers', methods=['GET', 'POST'])
+def offers_index():
+    if request.method == 'GET':
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return f"Not Found {e}", 404
+
 
 if __name__ == '__main__':
     main()
