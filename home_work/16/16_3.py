@@ -123,7 +123,7 @@ def users_index():
             )
         return jsonify(all_users)
 
-    if request.method == 'POST':
+    elif request.method == 'POST':
         data = request.get_json()
         new_user = User(
             first_name=data['first_name'],
