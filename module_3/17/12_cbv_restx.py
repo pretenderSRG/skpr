@@ -11,8 +11,6 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
 
-# books_ns = api.namespace('')
-
 class Book(db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
@@ -40,8 +38,8 @@ b2 = Book(name="Le Comte de Monte-Cristo", year=1844, author="Alexandre Dumas")
 with app.app_context():
     db.create_all()
 
-with db.session.begin():
-    db.session.add_all([b1, b2])
+    with db.session.begin():
+        db.session.add_all([b1, b2])
 
 
 @books_ns.route('/books')
@@ -62,11 +60,43 @@ class BooksView(Resource):
 @books_ns.route('/books/<int:bid>')
 class BookView(Resource):
 
-    def get(self, bid):
-        return books[bid], 200
+    def get(self, bid: int):
+        try:
+            book = db.session.query(Book).filter(Book.id == bid).one()
+            return book_schema.dump(book), 200
+        except Exception as e:
+            return str(e), 404
 
-    def delete(self, bid):
-        del books[bid]
+    def put(self, bid: int):
+        book = db.session.query(Book).get(bid)
+        req_json = request.get_json()
+
+        book.name = req_json.get('name')
+        book.author = req_json.get('author')
+        book.year = req_json.get('year')
+
+        db.session.add(book)
+        db.session.commit()
+        return "", 204
+
+    def patch(self, bid: int):
+        book = db.session.query(Book).get(bid)
+        req_json = request.get_json()
+        if 'name' in req_json:
+            book.name = req_json.get('name')
+        if 'author' in req_json:
+            book.author = req_json.get('author')
+        if 'year' in req_json:
+            book.year = req_json.get('year')
+
+        db.session.add(book)
+        db.session.commit()
+        return "", 204
+
+    def delete(self, bid: int):
+        book = db.session.query(Book).get(bid)
+        db.session.delete(book)
+        db.session.commit()
         return "", 204
 
 
