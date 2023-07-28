@@ -29,6 +29,8 @@ class Movie(db.Model):
     rating = db.Column(db.Integer)
     genre_id = db.Column(db.Integer, ForeignKey("genre.id"))
     director_id = db.Column(db.Integer, ForeignKey("director.id"))
+    genre = relationship("Genre")
+    director = relationship("Director")
 
 
 # Genre models
@@ -82,6 +84,7 @@ genres_schema = GenreSchema(many=True)
 
 # create Api and name spaces
 api = Api(app)
+api.app.config['RESTX_JSON'] = {'ensure_ascii': False, 'indent': 4}
 movie_ns = api.namespace('movies')
 genre_ns = api.namespace('genres')
 director_ns = api.namespace('directors')
@@ -93,34 +96,16 @@ class MoviesView(Resource):
     def get(self):
         director_id = request.args.get("director_id")
         genre_id = request.args.get("genre_id")
-        movie_list = []
+        movies = db.session.query(Movie)
 
-        if director_id and genre_id:
-            movies = db.session.query(Movie).filter(Movie.director_id == director_id, Movie.genre_id == genre_id)
-            for movie in movies:
-                movie_list.append(movie)
-            if len(movie_list) == 0:
-                return "Movies not found", 404
-            return movies_schema.dump(movie_list), 200
+        if director_id:
+            movies = movies.filter(Movie.director_id == director_id)
 
-        elif director_id:
-            movies_by_director = db.session.query(Movie).filter(Movie.director_id == director_id)
-            for movie in movies_by_director:
-                movie_list.append(movie)
-            if len(movie_list) == 0:
-                return "Movies by director not found", 404
-            return movies_schema.dump(movie_list), 200
+        if genre_id:
+            movies = movies.filter(Movie.genre_id == genre_id)
 
-        elif genre_id:
-            movies_by_genre = db.session.query(Movie).filter(Movie.genre_id == genre_id)
-            for movie in movies_by_genre:
-                movie_list.append(movie)
-            if len(movie_list) == 0:
-                return "Movies by genre not found", 404
-            return movies_schema.dump(movie_list), 200
-
-        all_movies = db.session.query(Movie).all()
-        return movies_schema.dump(all_movies), 200
+        movies = movies.all()
+        return movies_schema.dump(movies), 200
 
 
     def post(self):
