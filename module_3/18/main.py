@@ -3,7 +3,9 @@ from flask_restx import Api
 
 from app.config import Config
 from app.database import db
-from model import Author, B
+from app.models import Author, Book
+from app.views.books import books_ns
+from app.views.authors import authors_ns
 
 
 def create_app(config: Config) -> Flask:

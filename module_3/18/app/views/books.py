@@ -1,6 +1,6 @@
 from flask import request
 from flask_restx import Resource, Namespace
-from app.models import BooksSchema, Book
+from app.models.books import BookSchema, Book
 
 from app.database import db
 
