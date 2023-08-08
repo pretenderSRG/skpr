@@ -1,6 +1,5 @@
 from app.database import db
 from marshmallow import Schema, fields
-from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 
 

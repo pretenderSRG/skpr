@@ -1,8 +1,7 @@
 from flask import request
 from flask_restx import Resource, Namespace
-from app.models.books import BookSchema, Book
-
-from app.database import db
+from app.dao.models.books import BookSchema
+from app.container import book_service
 
 
 books_ns = Namespace('books')
@@ -14,14 +13,13 @@ books_schema = BookSchema(many=True)
 class BooksView(Resource):
 
     def get(self):
-        all_books = db.session.query(Book).all()
+        all_books = book_service.get_all()
         return books_schema.dump(all_books), 200
 
     def post(self):
         req_json = request.get_json()
-        new_book = Book(**req_json)
-        with db.session.begin():
-            db.session.add(new_book)
+        book_service.create(req_json)
+
         return "", 201
 
 
@@ -30,40 +28,28 @@ class BookView(Resource):
 
     def get(self, bid: int):
         try:
-            book = db.session.query(Book).filter(Book.id == bid).one()
+            book = book_service.get_one(bid)
             return book_schema.dump(book), 200
         except Exception as e:
             return str(e), 404
 
     def put(self, bid: int):
-        book = db.session.query(Book).get(bid)
+
         req_json = request.get_json()
+        req_json["id"] = bid
+        book_service.update(req_json)
 
-        book.name = req_json.get('name')
-        book.author = req_json.get('author')
-        book.year = req_json.get('year')
-
-        db.session.add(book)
-        db.session.commit()
         return "", 204
 
     def patch(self, bid: int):
-        book = db.session.query(Book).get(bid)
         req_json = request.get_json()
-        if 'name' in req_json:
-            book.name = req_json.get('name')
-        if 'author' in req_json:
-            book.author = req_json.get('author')
-        if 'year' in req_json:
-            book.year = req_json.get('year')
+        req_json["id"] = bid
 
-        db.session.add(book)
-        db.session.commit()
+        book_service.update_partial(req_json)
+        
         return "", 204
 
     def delete(self, bid: int):
-        book = db.session.query(Book).get(bid)
-        db.session.delete(book)
-        db.session.commit()
+        book_service.delete(bid)
         return "", 204
 
