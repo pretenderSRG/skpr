@@ -26,10 +26,8 @@ def main():
         if transfer.action_ == 0:
             break
         elif transfer.action_ == 1:
+            pass
             
-
-
-
 
 if __name__ == '__main__':
     main()
